@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.ice.cloud.Cloud;
 import com.ice.cloud.utils.Time;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -18,10 +19,13 @@ public class GuildManager extends AudioEventAdapter {
 
 	public final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
-	@SuppressWarnings("unused")
 	private Guild server;
 	private TextChannel sending;
 	private boolean sendingSet = false;
+	
+	//Repeating stuff
+	private boolean repeating = false;
+	AudioTrack lastTrack;
 	
 	public GuildManager(AudioPlayer player, Guild g) {
 		this.player = player;
@@ -46,6 +50,8 @@ public class GuildManager extends AudioEventAdapter {
 	
 	public void nextSong() {
 		if(queue.isEmpty()) {
+			System.out.println("[AUDIO] Removing "+server.getName()+"'s player with reason: Queue Concluded");
+			Cloud.musicHandler.remove(server);
 			sending.sendMessage("Music queue concluded!").queue();
 			sendingSet = false;
 			return;
@@ -53,6 +59,7 @@ public class GuildManager extends AudioEventAdapter {
 			player.setVolume(50);
 			player.startTrack(queue.poll(), false);
 			AudioTrack t = player.getPlayingTrack();
+			System.out.println("[AUDIO] Now playing "+t.getInfo().title+" for "+server.getName()+"("+server.getId()+")");
 			sending.sendMessage(new EmbedBuilder()
 					.setDescription(":musical_note: Now playing **["+t.getInfo().title+"]("+t.getInfo().uri+")**\n"+
 									"Creator: `"+t.getInfo().author+"`\n"+
@@ -66,7 +73,11 @@ public class GuildManager extends AudioEventAdapter {
 	
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-		if(endReason.mayStartNext) nextSong();
+		if(endReason.mayStartNext) {
+			if(repeating) 
+				player.startTrack(track.makeClone(), false);
+			else
+				nextSong();
+		}
 	}
-	
 }

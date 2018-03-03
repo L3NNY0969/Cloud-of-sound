@@ -33,6 +33,13 @@ public class GuildPlayer {
 		return managers.get(g.getId());
 	}
 	
+	public void remove(Guild g) {
+		if(managers.containsKey(g.getId())) managers.remove(g.getId());
+		else return;
+	}
+	
+	public int getPlayerCount() {return managers.size();}
+	
 	public void play(final TextChannel c, final String audioSource) {
 		final GuildMM player = getGuildPlayer(c.getGuild());
 		
