@@ -41,7 +41,7 @@ public class GuildManager extends AudioEventAdapter {
 		repeating = value;
 	}
 	
-	private boolean getRepeating() {
+	public boolean getRepeating() {
 		return repeating;
 	}
 	

@@ -31,8 +31,9 @@ public class Cloud {
 	
 	public static void registerCommands() {
 		//Music because well this bot is music
-		commandHandler.register(new Play());
 		commandHandler.register(new Join());
+		commandHandler.register(new Play());
+		commandHandler.register(new Repeat());
 		commandHandler.register(new Skip());
 		//Misc
 		commandHandler.register(new Ping());

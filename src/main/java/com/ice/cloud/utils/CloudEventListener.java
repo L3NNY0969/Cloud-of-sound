@@ -5,12 +5,12 @@ import java.time.format.DateTimeFormatter;
 import com.ice.cloud.Cloud;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class CloudEventListener extends ListenerAdapter {
@@ -32,36 +32,37 @@ public class CloudEventListener extends ListenerAdapter {
 	
 	@Override
 	public void onGuildJoin(GuildJoinEvent event) {
+		event.getJDA().getTextChannelById("419631735441981440").sendMessage(new EmbedBuilder()
+				.setColor(Cloud.emColor)
+				.setAuthor("New server joined: "+event.getGuild().getName()+"("+event.getGuild().getId()+")", null, event.getGuild().getIconUrl())
+				.addField("Members", "This guild has **"+event.getGuild().getMembers().stream().filter(u -> u.getUser().isBot() == true).count()+"** bot(s) and **"+event.getGuild().getMembers().stream().filter(u->u.getUser().isBot() == false).count()+"** human(s)", false)
+				.setThumbnail(event.getGuild().getIconUrl())
+				.addField("Channels", "This guild has **"+event.getGuild().getTextChannels().size()+"** text channel(s) and **"+event.getGuild().getVoiceChannels().size()+"** voice channel(s)", false)
+				.addField("Guild Region", "**"+event.getGuild().getRegionRaw()+"**", false)
+				.addField("Total now", event.getJDA().getGuilds().size()+" guild(s)", false)
+				.build()
+			).queue();
+			Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 		event.getGuild().getTextChannels().forEach(channel -> {
 			if(found == 0) {
-				found = 1;
-				if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE, Permission.MESSAGE_READ, Permission.MESSAGE_EMBED_LINKS)) return; //Well we cant send nothing if there is no permissions for the bot
-				else {
+				try {
+					found = 1;
 					channel.sendMessage("Hey there, I'm the cloud of sounds, I play music from soundcloud in your voice channel. To play music simply run `c.play [searchterm]`").queue();
-				}	
+				} catch (PermissionException e) {
+					//Do nothing
+				}
 			} else return; //We dont wanna send too many messages
 		});
-		event.getJDA().getTextChannelById("419631735441981440").sendMessage(new EmbedBuilder()
-			.setColor(Cloud.emColor)
-			.setAuthor("New server joined: "+event.getGuild().getName()+"("+event.getGuild().getId()+")", null, event.getGuild().getIconUrl())
-			.addField("Members", "This guild has **"+event.getGuild().getMembers().stream().filter(u -> u.getUser().isBot() == true).count()+"** bot(s) and **"+event.getGuild().getMembers().stream().filter(u->u.getUser().isBot() == false).count()+"** human(s)", false)
-			.setThumbnail(event.getGuild().getIconUrl())
-			.addField("Channels", "This guild has **"+event.getGuild().getTextChannels().size()+"** text channel(s) and **"+event.getGuild().getVoiceChannels().size()+"** voice channel(s)", false)
-			.addField("Guild Region", "**"+event.getGuild().getRegionRaw()+"**", false)
-			.addField("Total now", event.getJDA().getGuilds().size()+" servers", false)
-			.build()
-		).queue();
-		Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 	}
 	
 	@Override
 	public void onGuildLeave(GuildLeaveEvent event) {
 		event.getJDA().getTextChannelById("419631735441981440").sendMessage(new EmbedBuilder()
 				.setColor(Cloud.emColor)
-				.setAuthor("Left server: "+event.getGuild().getName()+"("+event.getGuild().getName(), null, event.getGuild().getIconUrl())
+				.setAuthor("Left server: "+event.getGuild().getName()+"("+event.getGuild().getId()+")", null, event.getGuild().getIconUrl())
 				.setThumbnail(event.getGuild().getIconUrl())
 				.addField("Been with this guild since", event.getGuild().getSelfMember().getJoinDate().format(DateTimeFormatter.ISO_LOCAL_DATE), false)
-				.addField("Total now", event.getJDA().getGuilds().size()+" servers", false)
+				.addField("Total now", event.getJDA().getGuilds().size()+" guild(s)", false)
 				.build()
 		).queue();
 		Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
