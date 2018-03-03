@@ -37,6 +37,7 @@ public class GuildPlayer {
 		final GuildMM player = getGuildPlayer(c.getGuild());
 		
 		c.getGuild().getAudioManager().setSendingHandler(player.getSendHandler());
+		player.getListener().setSendingChannel(c);
 		
 		playerManager.loadItemOrdered(player, audioSource, new AudioLoadResultHandler() {
 			@Override
@@ -60,8 +61,8 @@ public class GuildPlayer {
 				} else {
 					c.sendMessage(new EmbedBuilder()
 							.setDescription(":musical_note: Added `"+playlist.getTracks().get(0).getInfo().title+"` to the queue\n"+
-											"Creator: `"+playlist.getTracks().get(0).getInfo().author+"`\\n"+
-											"Length: `"+playlist.getTracks().get(0).getInfo().length+"` (Currently in ms)\\n"+
+											"Creator: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
+											"Length: `"+playlist.getTracks().get(0).getInfo().length+"` (Currently in ms)\n"+
 											"Url: [click here]("+playlist.getTracks().get(0).getInfo().uri+")"
 							)
 							.setColor(new Color(255, 102, 1))

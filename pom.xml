@@ -5,9 +5,8 @@
   <groupId>com.ice.cloud</groupId>
   <artifactId>Cloud-of-sound</artifactId>
   <version>1</version>
+  <name>cloud</name>
   <packaging>jar</packaging>
-
-  <name>Cloud</name>
   <url>http://maven.apache.org</url>
   
  <build>
