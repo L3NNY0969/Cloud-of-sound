@@ -7,11 +7,7 @@
   <version>1</version>
   <name>cloud</name>
   <packaging>jar</packaging>
-  <url>http://maven.apache.org</url>
-	
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <url>http://maven.apache.org</url
   
  <build>
         <plugins>
