@@ -1,1 +1,1 @@
-worker: java -jar target/cloud-1-jar-with-dependencies.jar
+worker: java -jar Cloud-of-sound-1-jar-with-dependencies.jar
