@@ -18,7 +18,7 @@ public class Cloud {
 	public static void main(String[] args) throws Exception {
 		registerCommands();
 		cloudBot = new JDABuilder(AccountType.BOT)
-				.setToken(BotConfig.TOKEN)
+				.setToken(System.getenv("TOKEN"))
 				.addEventListener(commandHandler)
 				.addEventListener(new CloudEventListener())
 				.buildBlocking();
