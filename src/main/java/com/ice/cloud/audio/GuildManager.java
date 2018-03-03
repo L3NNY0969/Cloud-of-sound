@@ -54,7 +54,7 @@ public class GuildManager extends AudioEventAdapter {
 			player.startTrack(queue.poll(), false);
 			AudioTrack t = player.getPlayingTrack();
 			sending.sendMessage(new EmbedBuilder()
-					.setDescription(":musical_note: Now playing `["+t.getInfo().title+"]("+t.getInfo().uri+")`\n"+
+					.setDescription(":musical_note: Now playing **["+t.getInfo().title+"]("+t.getInfo().uri+")**\n"+
 									"Creator: `"+t.getInfo().author+"`\n"+
 									"Length: "+Time.fromMStoHMS(t.getInfo().length)
 					)

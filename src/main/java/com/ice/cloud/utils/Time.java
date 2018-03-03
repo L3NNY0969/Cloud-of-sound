@@ -5,6 +5,6 @@ public class Time {
 		int seconds = (int) (time / 1000) % 60;
 		int minutes = (int) ((time / (1000*60)) % 60);
 		int hours = (int) ((time / (1000*60*60)) % 24);
-		return (hours == 0 ? "" : String.format("%02d", hours)+":")+(minutes == 0 ? "" : String.format("%02d", minutes)+":")+String.format("%02d", seconds);
+		return "`["+(hours == 0 ? "" : String.format("%02d", hours)+"h ")+(minutes == 0 ? "" : String.format("%02d", minutes)+"m ")+String.format("%02d", seconds)+"s"+"]`";
 	}
 }

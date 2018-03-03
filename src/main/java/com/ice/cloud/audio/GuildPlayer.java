@@ -48,20 +48,22 @@ public class GuildPlayer {
 			@Override
 			public void playlistLoaded(AudioPlaylist playlist) {
 				if(player.getPlayer().getPlayingTrack() == null) {
+					System.out.println("[AUDIO] Now playing "+playlist.getTracks().get(0).getInfo().title+" for "+c.getGuild().getName()+"("+c.getGuild().getId()+")");
 					c.sendMessage(new EmbedBuilder()
-						.setDescription(":musical_note: Now playing `["+playlist.getTracks().get(0).getInfo().title+"]("+playlist.getTracks().get(0).getInfo().uri+")`\n"+
-										"Creator: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
-										"Length: "+Time.fromMStoHMS(playlist.getTracks().get(0).getInfo().length)
+						.setDescription(":musical_note: Now playing **["+playlist.getTracks().get(0).getInfo().title+"]("+playlist.getTracks().get(0).getInfo().uri+")**\n"+
+										"By: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
+										"Duration: "+Time.fromMStoHMS(playlist.getTracks().get(0).getInfo().length)
 						)
 						.setColor(Cloud.emColor)
 						.build()
 					).queue();
 					player.listener.play(playlist.getTracks().get(0));
 				} else {
+					System.out.println("[AUDIO] Added "+playlist.getTracks().get(0).getInfo().title+" to the queue for "+c.getGuild().getName()+"("+c.getGuild().getId()+")");
 					c.sendMessage(new EmbedBuilder()
-							.setDescription(":musical_note: Now playing `["+playlist.getTracks().get(0).getInfo().title+"]("+playlist.getTracks().get(0).getInfo().uri+")`\n"+
-											"Creator: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
-											"Length: "+Time.fromMStoHMS(playlist.getTracks().get(0).getInfo().length)
+							.setDescription(":musical_note: Added **["+playlist.getTracks().get(0).getInfo().title+"]("+playlist.getTracks().get(0).getInfo().uri+")** to the queue!\n"+
+											"By: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
+											"Duration: "+Time.fromMStoHMS(playlist.getTracks().get(0).getInfo().length)
 							)
 							.setColor(Cloud.emColor)
 							.build()
@@ -72,11 +74,12 @@ public class GuildPlayer {
 			
 			@Override
 			public void noMatches() {
+				System.out.println("[AUDIO] A search for "+audioSource+" returned zero results for "+c.getGuild().getName()+"("+c.getGuild().getId()+")");
 				c.sendMessage("Found 0 results for `"+audioSource+"`").queue();
 			}
 			
 			@Override
-			public void loadFailed(FriendlyException arg0) {
+			public void loadFailed(FriendlyException e) {
 				c.sendMessage("Welp, It looks like everything exploded. Please try playing this song later!").queue();
 			}
 		});

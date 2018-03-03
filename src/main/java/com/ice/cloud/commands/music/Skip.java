@@ -39,7 +39,7 @@ public class Skip extends Command {
 				event.getChannel().sendMessage("You must be in a voice channel first!").queue();
 				return;
 			}
-			event.getChannel().sendMessage(":thumbsup: Skipped `"+player.getPlayer().getPlayingTrack().getInfo()+"`").queue();
+			event.getChannel().sendMessage(":thumbsup: Skipped `"+player.getPlayer().getPlayingTrack().getInfo().title+"`").queue();
 			player.getListener().nextSong();
 		}
 	}
