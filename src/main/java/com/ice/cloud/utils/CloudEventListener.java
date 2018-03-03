@@ -22,12 +22,12 @@ public class CloudEventListener extends ListenerAdapter {
 		StringBuilder ready = new StringBuilder()
 				.append("---- { LAUNCHED } ----"+"\n")
 				.append("- User: "+me.getName()+"#"+me.getDiscriminator()+"\n")
-				.append("- Servers: "+event.getJDA().getGuilds().size()+"\n")
+				.append("- Server(s) "+event.getJDA().getGuilds().size()+"\n")
 				.append("- Channels: "+event.getJDA().getTextChannels().size()+"\n")
 				.append(" + Voice: "+event.getJDA().getVoiceChannels().size()+"\n")
 				.append(" + Text: "+event.getJDA().getTextChannels().size());
 		System.out.println(ready.toString());
-		Cloud.cloudBot.getPresence().setGame(Game.of(GameType.LISTENING, "to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
+		Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class CloudEventListener extends ListenerAdapter {
 			.addField("Total now", event.getJDA().getGuilds().size()+" servers", false)
 			.build()
 		).queue();
-		Cloud.cloudBot.getPresence().setGame(Game.of(GameType.LISTENING, "to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
+		Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 	}
 	
 	@Override
@@ -61,6 +61,6 @@ public class CloudEventListener extends ListenerAdapter {
 				.addField("Total now", event.getJDA().getGuilds().size()+" servers", false)
 				.build()
 		).queue();
-		Cloud.cloudBot.getPresence().setGame(Game.of(GameType.LISTENING, "to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
+		Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 	}
 }
