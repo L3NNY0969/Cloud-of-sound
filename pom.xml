@@ -8,9 +8,9 @@
   <name>cloud</name>
   <packaging>jar</packaging>
   <url>http://maven.apache.org</url>
+  
   <properties>
-    <maven.compiler.source>9</maven.compiler.source>
-    <maven.compiler.target>9</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
  <build>
@@ -39,10 +39,6 @@
             </plugin>
         </plugins>
     </build>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
   
   <repositories>
 	<repository>
