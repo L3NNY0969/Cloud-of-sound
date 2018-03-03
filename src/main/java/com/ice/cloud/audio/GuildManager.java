@@ -41,6 +41,10 @@ public class GuildManager extends AudioEventAdapter {
 		repeating = value;
 	}
 	
+	private boolean getRepeating() {
+		return repeating;
+	}
+	
 	public void setSendingChannel(TextChannel c) {
 		if(sendingSet == true) return;
 		sending = c;

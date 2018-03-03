@@ -10,6 +10,7 @@ import com.ice.cloud.utils.cmd.CommandHandler;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
 
 public class Cloud {
 	
@@ -25,6 +26,7 @@ public class Cloud {
 				.addEventListener(commandHandler)
 				.addEventListener(new CloudEventListener())
 				.buildBlocking();
+		cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+cloudBot.getGuilds().size()+" guild(s)"));
 	}
 	
 	public static void registerCommands() {
