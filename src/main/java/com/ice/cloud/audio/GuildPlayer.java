@@ -1,9 +1,9 @@
 package com.ice.cloud.audio;
-
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ice.cloud.Cloud;
+import com.ice.cloud.utils.Time;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -49,23 +49,21 @@ public class GuildPlayer {
 			public void playlistLoaded(AudioPlaylist playlist) {
 				if(player.getPlayer().getPlayingTrack() == null) {
 					c.sendMessage(new EmbedBuilder()
-						.setDescription(":musical_note: Now playing `"+playlist.getTracks().get(0).getInfo().title+"`\n"+
+						.setDescription(":musical_note: Now playing `["+playlist.getTracks().get(0).getInfo().title+"]("+playlist.getTracks().get(0).getInfo().uri+")`\n"+
 										"Creator: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
-										"Length: `"+playlist.getTracks().get(0).getInfo().length+"` (Currently in ms)\n"+
-										"Url: [click here]("+playlist.getTracks().get(0).getInfo().uri+")"
+										"Length: "+Time.fromMStoHMS(playlist.getTracks().get(0).getInfo().length)
 						)
-						.setColor(new Color(255, 102, 1))
+						.setColor(Cloud.emColor)
 						.build()
 					).queue();
 					player.listener.play(playlist.getTracks().get(0));
 				} else {
 					c.sendMessage(new EmbedBuilder()
-							.setDescription(":musical_note: Added `"+playlist.getTracks().get(0).getInfo().title+"` to the queue\n"+
+							.setDescription(":musical_note: Now playing `["+playlist.getTracks().get(0).getInfo().title+"]("+playlist.getTracks().get(0).getInfo().uri+")`\n"+
 											"Creator: `"+playlist.getTracks().get(0).getInfo().author+"`\n"+
-											"Length: `"+playlist.getTracks().get(0).getInfo().length+"` (Currently in ms)\n"+
-											"Url: [click here]("+playlist.getTracks().get(0).getInfo().uri+")"
+											"Length: "+Time.fromMStoHMS(playlist.getTracks().get(0).getInfo().length)
 							)
-							.setColor(new Color(255, 102, 1))
+							.setColor(Cloud.emColor)
 							.build()
 						).queue();
 						player.listener.play(playlist.getTracks().get(0));

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.ice.cloud.utils.Time;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -17,7 +18,8 @@ public class GuildManager extends AudioEventAdapter {
 
 	public final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
-	private final Guild server;
+	@SuppressWarnings("unused")
+	private Guild server;
 	private TextChannel sending;
 	private boolean sendingSet = false;
 	
@@ -25,6 +27,10 @@ public class GuildManager extends AudioEventAdapter {
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
 		this.server = g;
+	}
+	
+	public boolean queueEmpty() {
+		return queue.isEmpty();
 	}
 	
 	public void setSendingChannel(TextChannel c) {
@@ -40,7 +46,7 @@ public class GuildManager extends AudioEventAdapter {
 	
 	public void nextSong() {
 		if(queue.isEmpty()) {
-			sending.sendMessage("The queue is empty. Add more music to continue the queue!").queue();
+			sending.sendMessage("Music queue concluded!").queue();
 			sendingSet = false;
 			return;
 		} else {
@@ -48,10 +54,9 @@ public class GuildManager extends AudioEventAdapter {
 			player.startTrack(queue.poll(), false);
 			AudioTrack t = player.getPlayingTrack();
 			sending.sendMessage(new EmbedBuilder()
-					.setDescription(":musical_note: Added `"+t.getInfo().title+"` to the queue\n"+
+					.setDescription(":musical_note: Now playing `["+t.getInfo().title+"]("+t.getInfo().uri+")`\n"+
 									"Creator: `"+t.getInfo().author+"`\n"+
-									"Length: `"+t.getInfo().length+"` (Currently in ms)\n"+
-									"Url: [click here]("+t.getInfo().uri+")"
+									"Length: "+Time.fromMStoHMS(t.getInfo().length)
 					)
 					.setColor(new Color(255, 102, 1))
 					.build()

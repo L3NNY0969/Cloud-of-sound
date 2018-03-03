@@ -1,46 +1,34 @@
 package com.ice.cloud.commands.music;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import com.ice.cloud.Cloud;
 import com.ice.cloud.utils.cmd.Command;
 
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-public class Play extends Command {
-
+public class Join extends Command {
 	@Override
 	public String name() {
-		return "c.play";
+		return "c.join";
 	}
 	
 	@Override
 	public String description() {
-		return "Plays a song from soundcloud!";
+		return "Joins your voice channel if you are in one!";
 	}
 	
 	@Override
 	public List<String> alias() {
-		return Collections.emptyList();
+		return Arrays.asList("c.summon", "c.plsjoin");
 	}
 	
 	@Override
 	public void whenExecuted(GuildMessageReceivedEvent event, String[] args, User author) {
-		VoiceChannel channel = event.getGuild().getMember(author).getVoiceState().getChannel();
-		TextChannel c = event.getChannel();
-		String input = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-		if(channel == null) {
-			c.sendMessage("You must be in a voice channel first!").queue();
-			return;
-		}
-		if(args.length < 2) {
-			c.sendMessage("Correct Usage: `c.play [searchterm]`").queue();
+		VoiceChannel vc = event.getGuild().getMember(author).getVoiceState().getChannel();
+		if(vc == null) {
+			event.getChannel().sendMessage("You must be in a voice channel first!").queue();
 			return;
 		} else {
 			if(!event.getGuild().getSelfMember().hasPermission(Permission.VOICE_SPEAK)) {
@@ -51,10 +39,8 @@ public class Play extends Command {
 				event.getChannel().sendMessage(":x: Failed to join your voice channel. Reason: I cannot connect to your voice channel!").queue();
 				return;
 			}
-			input = "scsearch:"+input;
-			c.getGuild().getAudioManager().openAudioConnection(channel);
-			Cloud.musicHandler.play(c, input);	
+			event.getGuild().getAudioManager().openAudioConnection(vc);
+			event.getChannel().sendMessage(":white_check_mark: Successfully joined **"+vc.getName()+"**").queue();	
 		}
 	}
-
 }
