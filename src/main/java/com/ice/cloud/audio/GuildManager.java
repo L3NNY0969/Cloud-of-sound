@@ -37,6 +37,10 @@ public class GuildManager extends AudioEventAdapter {
 		return queue.isEmpty();
 	}
 	
+	public void setRepeating(boolean value) {
+		repeating = value;
+	}
+	
 	public void setSendingChannel(TextChannel c) {
 		if(sendingSet == true) return;
 		sending = c;
@@ -44,7 +48,6 @@ public class GuildManager extends AudioEventAdapter {
 	}
 	
 	public void play(AudioTrack track) {
-		player.setVolume(50);
 		if(!player.startTrack(track, true)) queue.offer(track);
 	}
 	
