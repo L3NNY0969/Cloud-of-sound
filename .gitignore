@@ -1,0 +1,5 @@
+target/
+src/main/java/com/ice/cloud/utils/BotConfig.java
+.settings/*
+.project
+.classpath
