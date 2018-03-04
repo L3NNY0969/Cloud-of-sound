@@ -42,7 +42,7 @@ public class CloudEventListener extends ListenerAdapter {
 				.addField("Total now", event.getJDA().getGuilds().size()+" guild(s)", false)
 				.build()
 			).queue();
-			Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
+			Cloud.cloudBot.getPresence().setGame(Game.listening("🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 		event.getGuild().getTextChannels().forEach(channel -> {
 			if(found == 0) {
 				try {
@@ -65,6 +65,6 @@ public class CloudEventListener extends ListenerAdapter {
 				.addField("Total now", event.getJDA().getGuilds().size()+" guild(s)", false)
 				.build()
 		).queue();
-		Cloud.cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
+		Cloud.cloudBot.getPresence().setGame(Game.listening("🎵 | "+event.getJDA().getGuilds().size()+" guild(s)"));
 	}
 }
