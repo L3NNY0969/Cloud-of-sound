@@ -26,7 +26,7 @@ public class Cloud {
 				.addEventListener(commandHandler)
 				.addEventListener(new CloudEventListener())
 				.buildBlocking();
-		cloudBot.getPresence().setGame(Game.listening("to 🎵 | "+cloudBot.getGuilds().size()+" guild(s)"));
+		cloudBot.getPresence().setGame(Game.listening("🎵 | "+cloudBot.getGuilds().size()+" guild(s)"));
 	}
 	
 	public static void registerCommands() {
